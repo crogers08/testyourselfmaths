@@ -1,17 +1,16 @@
-// GET /multiply
-exports.getMultiplyPage = async (req, res) => {
-    const pageTitle = "Multiplication";
+// GET /squares
+exports.getSquaresPage = async (req, res) => {
+    const pageTitle = "Squared Numbers";
 
     if (!req.session.questionNumber) req.session.questionNumber = 1;
     if (!req.session.correctNumber) req.session.correctNumber = 0;
     if (!req.session.usedNums) req.session.usedNums = [];     
     
     let num1 = parseInt(req.query.num1, 10);
-    let num2 = parseInt(req.query.num2, 10);
-    let product = num1 * num2;
+    let product = num1 * num1;
     
-    if (isNaN(num1) || isNaN(num2) || isNaN(product)) {
-         // Pick a unique num1 not used before
+    if (isNaN(num1) || isNaN(product)) {
+        // Pick a unique num1 not used before
         const availableNums = Array.from({ length: 12 }, (_, i) => i + 1)
             .filter(n => !req.session.usedNums.includes(n));
 
@@ -25,8 +24,8 @@ exports.getMultiplyPage = async (req, res) => {
 
         // Add chosen num1 to session tracker
         req.session.usedNums.push(num1);
-        num2 = Math.floor(Math.random() * 12) + 1;
-        product = num1 * num2;
+        // num1 = Math.floor(Math.random() * 12) + 1;
+        product = num1 * num1;
     }
 
     const message = req.query.message || null;
@@ -45,10 +44,9 @@ exports.getMultiplyPage = async (req, res) => {
         req.session.correctNumber = 0;
         req.session.usedNums = [];  
 
-        return res.render("multiply", {
+        return res.render("squares", {
             pageTitle,
             num1: null,
-            num2: null,
             product: null,
             message: finalMessage,
             answer: null,
@@ -59,10 +57,9 @@ exports.getMultiplyPage = async (req, res) => {
         });
     }
 
-    res.render("multiply", {
+    res.render("squares", {
         pageTitle,
         num1,
-        num2,
         product,
         message,
         answer,
@@ -73,12 +70,11 @@ exports.getMultiplyPage = async (req, res) => {
     });
 };
 
-// POST /multiply/check-answer
+// POST /squares/check-answer
 exports.checkAnswer = (req, res) => {
     const userAnswer = parseInt(req.body.answer, 10);
     const num1 = parseInt(req.body.num1, 10);
-    const num2 = parseInt(req.body.num2, 10);
-    const product = num1 * num2;
+    const product = num1 * num1;
 
     let message;
     let correctAnswer = 0;
@@ -91,5 +87,5 @@ exports.checkAnswer = (req, res) => {
         message = `Incorrect. The correct answer is ${product}.`;
     }
 
-    res.redirect(`/multiply?num1=${num1}&num2=${num2}&answer=${userAnswer}&product=${product}&message=${encodeURIComponent(message)}&correctAnswer=${correctAnswer}`);
+    res.redirect(`/squares?num1=${num1}&answer=${userAnswer}&product=${product}&message=${encodeURIComponent(message)}&correctAnswer=${correctAnswer}`);
 };

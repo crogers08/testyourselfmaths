@@ -6,6 +6,7 @@ exports.getDividePage = async (req, res) => {
     // Initialize session variables if not present
     if (!req.session.divQuestionNumber) req.session.divQuestionNumber = 1;
     if (!req.session.divCorrectNumber) req.session.divCorrectNumber = 0;
+    if (!req.session.usedNums) req.session.usedNums = [];     
     
         let num1 = parseInt(req.query.num1, 10);
         let num2 = parseInt(req.query.num2, 10);
@@ -13,7 +14,21 @@ exports.getDividePage = async (req, res) => {
         
         //If not provided, generate new numbers
         if(isNaN(num1) || isNaN(num2) || isNaN(product)){
+             // Pick a unique num1 not used before
+        const availableNums = Array.from({ length: 12 }, (_, i) => i + 1)
+            .filter(n => !req.session.usedNums.includes(n));
+
+        // If we've run out, reset (safety net)
+        if (availableNums.length === 0) {
+            req.session.usedNums = [];
             num1 = Math.floor(Math.random() * 12) + 1;
+        } else {
+            num1 = availableNums[Math.floor(Math.random() * availableNums.length)];
+        }
+
+        // Add chosen num1 to session tracker
+        req.session.usedNums.push(num1);
+
             num2 = Math.floor(Math.random() * 12) + 1;
             product = num1 * num2;
     
@@ -38,6 +53,8 @@ exports.getDividePage = async (req, res) => {
         // Reset session for new round
         req.session.divQuestionNumber = 1;
         req.session.divCorrectNumber = 0;
+        req.session.usedNums = [];  
+
         return res.render("divide", {
             pageTitle,
             num1: null,

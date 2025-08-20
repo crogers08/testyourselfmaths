@@ -8,6 +8,7 @@ require('dotenv').config();
 const indexRoutes = require('./routes/index');
 const multiplyRoutes = require('./routes/multiply');
 const divideRoutes = require('./routes/divide');
+const squaresRoutes = require('./routes/squares');
 
 
 // Middleware to parse form data
@@ -31,6 +32,7 @@ app.use(session({
 app.use('/', indexRoutes);
 app.use('/multiply', multiplyRoutes);
 app.use('/divide', divideRoutes);
+app.use('/squares', squaresRoutes);
 
 // Add error-handling middleware
 app.use((err, req, res, next) => {
