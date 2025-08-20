@@ -4,6 +4,6 @@ exports.getIndexPage = async (req, res) => {
     req.session.questionNumber = 1;
     req.session.correctNumber = 0;
 
-    const titleofpage = "Index";
-    res.render("index", { pageTitle: titleofpage });
+    const pageTitle = "Test Your Skills";
+    res.render("index", { pageTitle });
 }

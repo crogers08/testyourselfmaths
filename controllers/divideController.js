@@ -1,7 +1,7 @@
 // GET /divide
 exports.getDividePage = async (req, res) => {
 
-    const titleofpage = "Division";
+    const pageTitle = "Division";
 
     // Initialize session variables if not present
     if (!req.session.divQuestionNumber) req.session.divQuestionNumber = 1;
@@ -39,7 +39,7 @@ exports.getDividePage = async (req, res) => {
         req.session.divQuestionNumber = 1;
         req.session.divCorrectNumber = 0;
         return res.render("divide", {
-            pale: titleofpage,
+            pageTitle,
             num1: null,
             num2: null,
             product: null,
@@ -54,7 +54,7 @@ exports.getDividePage = async (req, res) => {
     
     console.log(`Next questionNumvar: ${questionNumber}`);
     res.render("divide", {
-        pale: titleofpage,
+        pageTitle,
         num1,
         num2,
         product,

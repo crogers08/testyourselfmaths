@@ -1,6 +1,6 @@
 // GET /multiply
 exports.getMultiplyPage = async (req, res) => {
-    const titleofpage = "Multiplication";
+    const pageTitle = "Multiplication";
 
     if (!req.session.questionNumber) req.session.questionNumber = 1;
     if (!req.session.correctNumber) req.session.correctNumber = 0;
@@ -31,7 +31,7 @@ exports.getMultiplyPage = async (req, res) => {
         req.session.correctNumber = 0;
 
         return res.render("multiply", {
-            pale: titleofpage,
+            pageTitle,
             num1: null,
             num2: null,
             product: null,
@@ -45,7 +45,7 @@ exports.getMultiplyPage = async (req, res) => {
     }
 
     res.render("multiply", {
-        pale: titleofpage,
+        pageTitle,
         num1,
         num2,
         product,
