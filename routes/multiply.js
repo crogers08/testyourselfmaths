@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const multiplyController = require('../controllers/multiplyController');
+const pageController = require('../controllers/pageController');
 
 // GET /multiply
-router.get("/", multiplyController.getMultiplyPage);
+router.get("/", (req,res) => pageController.getPage(req, res, 'multiply', 'Multiplication'));
 
 // POST /multiply/check-answer
-router.post("/check-answer", multiplyController.checkAnswer);
+router.post("/check-answer", (req,res) => pageController.checkAnswer(req, res, 'multiply', 'Multiplication'));
 module.exports = router;

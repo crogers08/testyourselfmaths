@@ -1,8 +1,9 @@
 // GET /index
+const calculationUtility = require('../utils/calculationUtility');
+
 exports.getIndexPage = async (req, res) => {
     // Reset session variables
-    req.session.questionNumber = 1;
-    req.session.correctNumber = 0;
+    calculationUtility.resetSession(req);   
 
     const pageTitle = "Test Your Skills";
     res.render("index", { pageTitle });

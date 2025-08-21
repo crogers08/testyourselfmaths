@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const divideController = require('../controllers/divideController');
+const pageController = require('../controllers/pageController');
 
 // GET /divide
-router.get("/", divideController.getDividePage);
+router.get("/", (req,res) => pageController.getPage(req, res, 'divide', 'Division'));
 
 // POST /divide/check-answer
-router.post("/check-answer", divideController.checkAnswer);
-
+router.post("/check-answer", (req,res) => pageController.checkAnswer(req, res, 'divide', 'Division'));
 
 module.exports = router;

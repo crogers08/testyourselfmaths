@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const squaresController = require('../controllers/squaresController');
+const pageController = require('../controllers/pageController');
 
 // GET /squares
-router.get("/", squaresController.getSquaresPage);
+router.get("/", (req,res) => pageController.getPage(req, res, 'squares', 'Squared Numbers'));
 
 // POST /squares/check-answer
-router.post("/check-answer", squaresController.checkAnswer);
+router.post("/check-answer", (req,res) => pageController.checkAnswer(req, res, 'squares', 'Squared Numbers'));
+
 module.exports = router;
