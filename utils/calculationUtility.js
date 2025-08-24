@@ -68,7 +68,7 @@ function getQuestionText (num1, num2, product, calculationType){
         default:
             throw new Error('Invalid calculation type');
     }
-    return questionText;
+    return questionText+= " = ";
 }
 function calculateCorrectAnswer (num1, num2, calculationType) {
     let correctAnswer = 0;
