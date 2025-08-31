@@ -50,6 +50,12 @@ function resetSession (req, res) {
     req.session.usedNums = [];  
 }
 
+function getOrdinal(n) {
+    const s = ["th", "st", "nd", "rd"];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
 function getQuestionText (num1, num2, product, calculationType){
     let questionText = "";
     switch (calculationType) {
@@ -66,7 +72,7 @@ function getQuestionText (num1, num2, product, calculationType){
             questionText = `${num1}&sup3;`;
             break;
         case 'Triangular Numbers':
-            questionText = `Triangle number ${num1} in sequence`;
+            questionText = `${getOrdinal(num1)} triangular number`;
             break;
         default:
             throw new Error('Invalid calculation type');

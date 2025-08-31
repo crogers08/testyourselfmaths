@@ -8,6 +8,7 @@ const quizPages = {
   divide: ["Division",20,1,12],
   squares: ["Squared Numbers",12,1,12],
   cubes: ["Cubed Numbers",5,1,5],
+  triangles : ["Triangular Numbers",5,1,5],
 };
 
 // GET /multiply
