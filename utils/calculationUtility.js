@@ -21,23 +21,26 @@ function getResponseMessage (req, res, isAnswerCorrect,calculatedAnswer){
     return message;
 }     
 
-function getUniqueNum1 (req, res) {
+function getUniqueNum1 (req, min, max){
+    console.log('getUniqueNum1 min,max:', min, max);
     if (!req.session.usedNums) {
         req.session.usedNums = [];
     }
-     const availableNums = Array.from({ length: 12 }, (_, i) => i + 1)
+     const availableNums = Array.from({ length: max }, (_, i) => i + 1)
             .filter(n => !req.session.usedNums.includes(n));
 
         // If we've run out, reset (safety net)
         if (availableNums.length === 0) {
             req.session.usedNums = [];
-            num1 = getRandomInt(1, 12);
+            num1 = getRandomInt(min, max);
         } else {
             num1 = availableNums[getRandomInt(0, availableNums.length-1)];
         }
 
         // Add chosen num1 to session tracker
         req.session.usedNums.push(num1);
+        console.log('usedNums:', req.session.usedNums);
+        console.log('num1 getUniqueNum1:', num1);
         return num1;
 }
 
@@ -71,6 +74,7 @@ function getQuestionText (num1, num2, product, calculationType){
     return questionText+= " = ";
 }
 function calculateCorrectAnswer (num1, num2, calculationType) {
+    console.log('calculateCorrectAnswer', num1, num2, calculationType);
     let correctAnswer = 0;
     switch (calculationType) {
         case 'Multiplication':
@@ -98,7 +102,6 @@ module.exports = {
     getRandomInt,
     calculateCorrectAnswer,
     getQuestionText,
-    calculateCorrectAnswer,
     resetSession,
     getUniqueNum1,
     getResponseMessage,

@@ -1,16 +1,19 @@
 const calculationUtility = require('../utils/calculationUtility');
-const numberOfQuestions = 12;
 const quizPage = 'quizPage'; // The name of the EJS template to render
 // GET /page
-exports.getQuizPage = async (req, res, pageName, pageTitle) => {
+exports.getQuizPage = async (req, res, pageName, pageTitle, numberOfQuestions, min, max) => {
     //use the numbers from the query parameters to display the question after answer has been submitted
     let num1 = parseInt(req.query.num1, 10);
     let num2 = parseInt(req.query.num2, 10);
+    console.log('numberofQuestions', numberOfQuestions);
+    console.log(`pageTitle: ${pageTitle}`);
+    console.log(`min: ${min}`);
+    console.log(`max: ${max}`);
     
     // If num1 or num2 doesnt yet exist, generate new numbers
     if (isNaN(num1) || isNaN(num2)) {
          // Pick a unique num1 not used before
-        num1 = calculationUtility.getUniqueNum1(req);
+        num1 = calculationUtility.getUniqueNum1(req, min, max);
         if(pageName !== 'squares') {
             // For squares, num2 is the same as num1
         num2 = calculationUtility.getRandomInt(1, 12);    
@@ -18,7 +21,7 @@ exports.getQuizPage = async (req, res, pageName, pageTitle) => {
             num2 = num1; // For squares, num2 is the same as num1
         }
     }
-
+    console.log(`num1: ${num1}, num2: ${num2}`);
     const product = num1 * num2; //used for division questions
     const message = req.query.message || null;
     const answer = req.query.answer ? parseInt(req.query.answer, 10) : null;
